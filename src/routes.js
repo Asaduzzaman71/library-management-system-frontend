@@ -1,18 +1,16 @@
 import DashBoard from './pages/DashbBoard.vue';
-
+import LibraryMember from './pages/Member.vue';
 import LoginPage from  './pages/Login.vue';
 import CategoryIndex from './pages/Category.vue';
 import BookIndex from './pages/Book.vue';
-function guardMyroute(to, from, next)
-{
-    var isAuthenticated= false;
 
+function guardMyroute(to, from, next){
+    var isAuthenticated= false;
     if(localStorage.getItem('access-token')){
         isAuthenticated = true;
     }else{
         isAuthenticated= false;
     }
-
     if(isAuthenticated){
         next(); // allow to enter route
     }
@@ -27,7 +25,6 @@ export const routes = [
         name: 'login',
         component: LoginPage,
     },
-   
     {
         name: 'dashboard',
         path: '/',
@@ -39,15 +36,17 @@ export const routes = [
         path: '/categories',
         beforeEnter : guardMyroute,
         component: CategoryIndex
-
     },
     {
         name: 'books',
         path: '/books',
         beforeEnter : guardMyroute,
         component: BookIndex
-
     },
-   
-
+    {
+        name: 'member',
+        path: '/members',
+        beforeEnter : guardMyroute,
+        component: LibraryMember
+    },
 ];

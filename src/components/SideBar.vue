@@ -30,12 +30,28 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <router-link to="/categories"    class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Categories</p>
-                </router-link>
-            </li>
+                <li class="nav-item">
+                    <router-link to="/categories" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Categories</p>
+                    </router-link>
+                </li>
+            </ul>
+             <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link to="/books" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Books</p>
+                    </router-link>
+                </li>
+            </ul>
+             <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link to="/members" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Members</p>
+                    </router-link>
+                </li>
             </ul>
         </li>
         </ul>
