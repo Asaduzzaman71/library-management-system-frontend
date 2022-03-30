@@ -46,15 +46,15 @@ export default {
 .modal {
   position: absolute;
   background: #FFFFFF;
-  box-shadow: 2px 2px 20px 1px;
+  box-shadow: 2px 2px 10px 1px;
   overflow-x: auto;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  top:30%;
+  top:20%;
   left: 30%;
-  width:40%;
-  height: 40%;
+  width: 50%;
+  height: 60%;
 }
 
 .modal-header,
@@ -78,8 +78,12 @@ export default {
 
 .modal-body {
   position: relative;
-  padding: 20px 10px;
+  padding: 10px 10px;
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
 }
+
+
 
 .close-btn {
   position: absolute;

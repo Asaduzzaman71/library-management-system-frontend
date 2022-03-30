@@ -1,6 +1,6 @@
 <template>
 <AdminLayout>
-    <div class="row mb-2">
+        <div class="row mb-2">
             <div class="offset-10 col-sm-2">
                 <button type="button" class="btn-primary" @click="openCreateModal()">Add category</button>
             </div>
@@ -86,7 +86,9 @@
 
                 <template v-slot:footer>
                     <button type="submit" class="btn-primary">
-                        <span v-show="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <div v-show="isLoading"  class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                        </div>
                         Submit
                     </button>
 
@@ -124,7 +126,7 @@ export default {
     },
     created() {
             const token = (localStorage.getItem('access-token'));
-            axios.get('/api/categories',{
+            axios.get('http://192.168.0.102:80/api/categories',{
                     headers: {
                         authorization: "Bearer " + token
                     }
@@ -156,7 +158,7 @@ export default {
         addCategory() {
             this.isLoading=true;
             const token = (localStorage.getItem('access-token'));
-            axios.post('/api/admin/categories', this.form,{
+            axios.post('http://192.168.0.102:80/api/categories', this.form,{
             headers: {
                 authorization: "Bearer " + token
             }
@@ -189,7 +191,7 @@ export default {
         editCategory(){
             const token = (localStorage.getItem('access-token'));
             this.isLoading=true;
-            axios.put('/api/admin/categories/'+this.form.id, this.form,{
+            axios.put('http://192.168.0.102:80/api/categories/'+this.form.id, this.form,{
             headers: {
                 authorization: "Bearer " + token
             }
@@ -237,8 +239,9 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
 
+                    console.log(result);
                     const token = (localStorage.getItem('access-token'));
-                    axios.delete('/api/admin/categories/'+category.id,{
+                    axios.delete('http://192.168.0.102:80/api/categories/'+category.id,{
                     headers: {
                         authorization: "Bearer " + token
                     }

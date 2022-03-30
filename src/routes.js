@@ -1,6 +1,8 @@
 import DashBoard from './pages/DashbBoard.vue';
-import CategoryIndex from './pages/Category.vue';
+
 import LoginPage from  './pages/Login.vue';
+import CategoryIndex from './pages/Category.vue';
+import BookIndex from './pages/Book.vue';
 function guardMyroute(to, from, next)
 {
     var isAuthenticated= false;
@@ -24,8 +26,6 @@ export const routes = [
         path: '/login',
         name: 'login',
         component: LoginPage,
-        
-        
     },
    
     {
@@ -37,7 +37,15 @@ export const routes = [
     {
         name: 'categories',
         path: '/categories',
+        beforeEnter : guardMyroute,
         component: CategoryIndex
+
+    },
+    {
+        name: 'books',
+        path: '/books',
+        beforeEnter : guardMyroute,
+        component: BookIndex
 
     },
    
