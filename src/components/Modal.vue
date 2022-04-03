@@ -51,9 +51,9 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  top:20%;
+  top:10%;
   left: 30%;
-  width: 50%;
+  width: 60%;
   height: 60%;
 }
 

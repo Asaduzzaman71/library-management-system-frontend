@@ -26,7 +26,7 @@
                         <tbody>
                             <tr v-for="(book,index) in books" :key="book.id">
                                 <td>{{index+1}}</td>
-                                <td><img :src="'http://192.168.0.102:80/storage/'+book.image" class="rounded" alt="Services" width="100" height="100"></td>
+                                <td><img :src="'http://127.0.0.1:80/storage/'+book.image" class="rounded" alt="Services" width="100" height="100"></td>
                                 <td>{{book.book_name}}</td>
                                 <td>{{book.author_name}}</td>
                                 <td>{{book.publisher}}</td>
@@ -180,7 +180,7 @@
                         <div class="image-preview-container">
                             <div v-for="(uploadedImage, key) in uploadedImages" :key="key">
                                 <div class ="image-preview-wrapper">
-                                    <img class ="preview" :src = "'http://192.168.0.102:80/storage/'+uploadedImage"  />
+                                    <img class ="preview" :src = "'http://127.0.0.1:80/storage/'+uploadedImage"  />
                                     <button @click.prevent ='removeUploadedImage(key)' class="close close-button">
                                         <span>&times;</span>
                                     </button>
@@ -255,12 +255,12 @@ export default {
             images: [],
             previewFiles: [],
             uploadedImages:[],
-            apiBaseUrl:'http://192.168.0.102:80/'
+            apiBaseUrl:'http://127.0.0.1:80/'
         }
     },
     created() {
             const token = (localStorage.getItem('access-token'));
-            axios.get('http://192.168.0.102:80/api/books',{
+            axios.get('http://127.0.0.1:80/api/books',{
                     headers: {
                         authorization: "Bearer " + token,
                     }
@@ -270,7 +270,7 @@ export default {
                     console.log(this.books );
 
                 });
-            axios.get('http://192.168.0.102:80/api/categories',{
+            axios.get('http://127.0.0.1:80/api/categories',{
                     headers: {
                         authorization: "Bearer " + token
                     }
@@ -351,7 +351,7 @@ export default {
             formData.append('image', this.images[0]);
 
             console.log(formData);
-            axios.post('http://192.168.0.102:80/api/books', formData,{
+            axios.post('http://127.0.0.1:80/api/books', formData,{
             headers: {
                 authorization: "Bearer " + token,
                 "Content-Type": "multipart/form-data"
@@ -399,7 +399,7 @@ export default {
             formData.append("_method", "PUT");
            
             const token = (localStorage.getItem('access-token'));
-            axios.post('http://192.168.0.102:80/api/books/'+this.bookId, formData,{
+            axios.post('http://127.0.0.1:80/api/books/'+this.bookId, formData,{
                 headers: {
                     authorization: "Bearer " + token,
                     "Content-Type": "multipart/form-data"
@@ -448,7 +448,7 @@ export default {
                 }).then(() => {
 
                     const token = (localStorage.getItem('access-token'));
-                    axios.delete('http://192.168.0.102:80/api/books/'+book.id,{
+                    axios.delete('http://127.0.0.1:80/api/books/'+book.id,{
                     headers: {
                         authorization: "Bearer " + token
                     }

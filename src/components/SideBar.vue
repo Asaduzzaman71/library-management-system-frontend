@@ -53,6 +53,15 @@
                     </router-link>
                 </li>
             </ul>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link to="/issues" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Book Issues</p>
+                    </router-link>
+                </li>
+            </ul>
+
         </li>
         </ul>
     </nav>

@@ -1,52 +1,38 @@
 <template>
-    <div class="login-template">
-        <h2>Login Form</h2>
-        <form @submit.prevent="login" method="post">
-            <div class="imgcontainer">
-                <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    <div class="login-page">
+        <div class="form">
+            <div v-if="unauthorized">
+                <span class="text-danger">{{ errors}} </span>
             </div>
-
-
-            <div class="container">
-                <div v-if="unauthorized">
-                    <span class="text-danger">{{ errors}} </span>
-                </div>
-                <div v-else>
-                    <div v-for="(errorArray, index) in errors" :key="index">
-                        <div v-for="(allErrors, index) in errorArray" :key="index">
-                            <span class="text-danger">{{ allErrors}} </span>
-                        </div>
+            <div v-else>
+                <div v-for="(errorArray, index) in errors" :key="index">
+                    <div v-for="(allErrors, index) in errorArray" :key="index">
+                        <span class="text-danger">{{ allErrors}} </span>
                     </div>
                 </div>
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" v-model="form.email">
-
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" v-model="form.password">
-
-                <button type="submit">Login</button>
-                <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
             </div>
-
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
-        </form>
+            <form @submit.prevent="login" method="post"  class="login-form">
+                <input type="text" placeholder="name" v-model="form.email"/>
+                <input type="password" placeholder="password" v-model="form.password"/>
+                <button>login</button>
+                <p class="message">Not registered?
+                    <router-link to="/signup" class="nav-link">
+                        <p>Create an account</p>
+                    </router-link>
+                </p>
+            </form>
+        </div>
     </div>
 </template>
 <script>
 import axios from "axios";
-    export default {
-        name:'LoginPage',
-         data(){
+export default {
+    name:'LoginPage',
+    data(){
         return{
             form:{
                 email: '',
                 password: '',
-
             },
             errors:[],
             unauthorized: false
@@ -54,93 +40,121 @@ import axios from "axios";
     },
     methods:{
         login(){
-            axios.post('http://192.168.0.102:80/api/auth/login', this.form).then((response) =>{
+            axios.post('http://127.0.0.1:80/api/auth/login', this.form).then((response) =>{
             this.$router.push({ name: "dashboard"});
             localStorage.setItem('access-token', response.data.access_token);
             }).catch((error) =>{
-
+                console.log(error.response);
                 if(error.response.status == 422){
                     this.unauthorized = false;
                     this.errors = error.response.data.error;
-                }
-                else if(error.response.status == 401){
+                }else if(error.response.status == 401){
                     this.unauthorized = true;
                     this.errors = error.response.data.error;
                 }
-
-
             })
         }
     }
 }
 </script>
 <style scoped>
-.login-template{
-position: fixed;
-top: 10%;
-left: 10%;
-margin-left: -(dialogwidth/2);
-margin-top: -(dialogheight/2);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-}
-form {border: 3px solid #f1f1f1;}
-
-input[type=text], input[type=password] {
+.login-page {
   width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  background: #7a9ed4;
+  padding: 8% 0 0;
+  margin: auto;
 }
-
-button {
-  background-color: #04AA6D;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
-
-button:hover {
-  opacity: 0.8;
-}
-
-.cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
-}
-
-.imgcontainer {
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 400px;
+  margin: 0 auto 100px;
+  padding: 45px;
   text-align: center;
-  margin: 24px 0 12px 0;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-
-img.avatar {
-  width: 40%;
-  border-radius: 50%;
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
-
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 14px;
+}
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
 .container {
-  padding: 16px;
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
 }
-
-span.psw {
-  float: right;
-  padding-top: 16px;
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
 }
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
-  }
-  .cancelbtn {
-     width: 100%;
-  }
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: rgb(141,194,111);
+  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
 }
 </style>

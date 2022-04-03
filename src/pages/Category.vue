@@ -2,11 +2,11 @@
 <AdminLayout>
         <div class="row mb-2">
             <div class="offset-10 col-sm-2">
-                <button type="button" class="btn-primary" @click="openCreateModal()">Add category</button>
+                <button type="button" class="btn btn-primary" @click="openCreateModal()">Add category</button>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card card-primary">
                     <table class="table table-bordered">
                         <thead>
@@ -23,7 +23,7 @@
                                 <td>{{category.name}}</td>
                                 <td>{{category.name}}</td>
                                 <td>{{category.name}}</td>
-                                <td><button type="button" class="btn-danger" @click="deleteCategory({...category})"><i class="fa fa-trash"></i></button><button type="button" class="btn-primary" @click="openEditModal({...category})"><i class="fa fa-edit"></i></button></td>
+                                <td><button type="button" class="btn btn-danger" @click="deleteCategory({...category})"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-primary" @click="openEditModal({...category})"><i class="fa fa-edit"></i></button></td>
                             </tr>
 
                         </tbody>
@@ -56,7 +56,7 @@
                 </template>
 
                 <template v-slot:footer>
-                    <button type="submit" class="btn-primary">
+                    <button type="submit" class="btn btn-primary">
                         Submit
                         <span v-show="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </button>
@@ -85,7 +85,7 @@
                 </template>
 
                 <template v-slot:footer>
-                    <button type="submit" class="btn-primary">
+                    <button type="submit" class="btn btn-primary">
                         <div v-show="isLoading"  class="spinner-border text-primary" role="status">
                         <span class="sr-only">Loading...</span>
                         </div>
@@ -126,7 +126,7 @@ export default {
     },
     created() {
             const token = (localStorage.getItem('access-token'));
-            axios.get('http://192.168.0.102:80/api/categories',{
+            axios.get('http://127.0.0.1:80/api/categories',{
                     headers: {
                         authorization: "Bearer " + token
                     }
@@ -152,13 +152,13 @@ export default {
         close() {
             this.createMode = false;
             this.editMode=false;
-             this.form=false;
+            this.form=false;
         },
 
         addCategory() {
             this.isLoading=true;
             const token = (localStorage.getItem('access-token'));
-            axios.post('http://192.168.0.102:80/api/categories', this.form,{
+            axios.post('http://127.0.0.1:80/api/categories', this.form,{
             headers: {
                 authorization: "Bearer " + token
             }
@@ -191,7 +191,7 @@ export default {
         editCategory(){
             const token = (localStorage.getItem('access-token'));
             this.isLoading=true;
-            axios.put('http://192.168.0.102:80/api/categories/'+this.form.id, this.form,{
+            axios.put('http://127.0.0.1:80/api/categories/'+this.form.id, this.form,{
             headers: {
                 authorization: "Bearer " + token
             }
@@ -201,11 +201,11 @@ export default {
                         this.categories.splice(index,1,response.data.results);
                     }
                 })
-                  this.$swal(
-                            'Updated!',
-                            'Category has been updated.',
-                            'success'
-                            )
+                this.$swal(
+                        'Updated!',
+                        'Category has been updated.',
+                        'success'
+                        )
                 this.editMode=false;
                 this.form=[];
                 this.errors=[];
@@ -228,7 +228,6 @@ export default {
         },
 
         deleteCategory(category){
-
             this.$swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -237,11 +236,9 @@ export default {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-
-                    console.log(result);
+                }).then(() => {
                     const token = (localStorage.getItem('access-token'));
-                    axios.delete('http://192.168.0.102:80/api/categories/'+category.id,{
+                    axios.delete('http://127.0.0.1:80/api/categories/'+category.id,{
                     headers: {
                         authorization: "Bearer " + token
                     }
@@ -263,7 +260,6 @@ export default {
                         if(error.response.status == 422){
                             this.unauthorized = false;
                             this.errors = error.response.data.errors;
-
                         }
                         else if(error.response.status == 404){
                             this.unauthorized = true;
