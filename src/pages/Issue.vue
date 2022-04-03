@@ -28,7 +28,7 @@
                                 <td>{{issue.issue_date}}</td>
                                 <td>{{issue.due_date}}</td>
                                 <td>
-                                   <button type="button" :class="issue.return_date==null ? 'btn btn-warning':'btn btn-success'" @click="updateStatus({...issue})">{{issue.return_date == null ? 'Pending' :'Returned'}}</button>
+                                   <button type="button" :class="issue.return_status=='Pending' ? 'btn btn-warning':'btn btn-success'" @click="updateStatus({...issue})">{{issue.return_status}}</button>
                                 </td>
                                 <td><button type="button" class="btn btn-danger" @click="deleteIssue({...issue})"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-primary" @click="openEditModal({...issue})"><i class="fa fa-edit"></i></button></td>
                             </tr>
@@ -176,14 +176,14 @@ export default {
    
     created() {
         const token = (localStorage.getItem('access-token'));
-         axios.get('http://127.0.0.1:80/api/issues',{
-                headers: {
-                    authorization: "Bearer " + token
-                }
-            })
-            .then(response => {
-                this.issues = response.data.results;
-            });
+        axios.get('http://127.0.0.1:80/api/issues',{
+            headers: {
+                authorization: "Bearer " + token
+            }
+        })
+        .then(response => {
+            this.issues = response.data.results;
+        });
         axios.get('http://127.0.0.1:80/api/members',{
                 headers: {
                     authorization: "Bearer " + token
@@ -232,8 +232,8 @@ export default {
             }).then((response) =>{
                 this.issues.forEach((item,index)=>{
                     if(item.id==response.data.results.id){
-                        // this.issues.splice(index,1,response.data.results);
-                        this.issues[index] = response.data.results ;
+                        this.issues.splice(index,1,response.data.results);
+                        //this.issues[index] = response.data.results ;
                     }
                 })
                 console.log(this.issues);
@@ -268,12 +268,12 @@ export default {
                     'Book issue has been created.',
                     'success'
                     )
+                console.log(this.issues);
                 this.createMode=false;
                 this.errors=[];
                 this.form=[];
                 this.unauthorized = false;
             }).catch((error) =>{
-                console.log(error);
                 if(error.response.status == 422){
                     this.unauthorized = false;
                     this.errors = error.response.data.errors;

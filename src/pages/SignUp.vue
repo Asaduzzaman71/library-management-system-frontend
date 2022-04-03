@@ -3,16 +3,16 @@
         <div class="form">
            
             <div v-if="passwordConfirmationError" class="alert alert-danger">
-                 <strong>{{ passwordConfirmationError}}</strong>
+                <strong>{{ passwordConfirmationError}}</strong>
             </div>
             <div v-if="nameError" class="alert alert-danger">
-                 <strong>{{ nameError}}</strong>
+                <strong>{{ nameError}}</strong>
             </div>
              <div v-if="emailError" class="alert alert-danger">
-                 <strong>{{ emailError}}</strong>
+                <strong>{{ emailError}}</strong>
             </div>
             <div v-if="passwordError" class="alert alert-danger">
-                 <strong>{{ passwordError}}</strong>
+                <strong>{{ passwordError}}</strong>
             </div>
             <form @submit.prevent="register" method="post"  class="login-form">
                 <input type="text" placeholder="Name" v-model="form.name"/>
